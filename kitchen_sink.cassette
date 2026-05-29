@@ -1,0 +1,20 @@
+five :: 5;
+ten := 10;
+return 20;
+(4 + 1) * - 5 + 3 * 2 / 1 + z;
+if (x == 5) {
+  y :: 3;
+  z :: 6;
+  return y + z;
+}
+if (a == 5) {
+  return five;
+} else {
+  return ten;
+}
+test :: fn() {
+  a :: 1;
+}
+add :: fn(one: int, two: int) -> int {
+  return five;
+}
