@@ -1,6 +1,11 @@
 [
 {
   "directory": "/Users/danluo/experiments/cpp/cassette",
+  "arguments": ["/Users/danluo/compilers/c_cpp/clang/instance01/build/bin/clang", "-c", "-Qunused-arguments", "-target", "arm64-apple-macos15.7", "-isysroot", "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.1.sdk", "-g", "-O0", "-Icommon", "-Isrc", "-Igenerated", "-std=c++2c", "-Wno-unknown-attributes", "-o", "build/.objs/cassette/macosx/arm64/debug/src/main.cpp.o", "src/main.cpp"],
+  "file": "src/main.cpp"
+},
+{
+  "directory": "/Users/danluo/experiments/cpp/cassette",
   "arguments": ["/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang", "-c", "-Qunused-arguments", "-target", "arm64-apple-macos15.7", "-isysroot", "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.1.sdk", "-g", "-O0", "-Icommon", "-Ilib", "-Ilib/tree_sitter/include", "-o", "build/.objs/meta/macosx/arm64/debug/lib/tree_sitter/src/lib.c.o", "lib/tree_sitter/src/lib.c"],
   "file": "lib/tree_sitter/src/lib.c"
 },
@@ -18,9 +23,4 @@
   "directory": "/Users/danluo/experiments/cpp/cassette",
   "arguments": ["/Users/danluo/compilers/c_cpp/clang/instance01/build/bin/clang", "-c", "-Qunused-arguments", "-target", "arm64-apple-macos15.7", "-isysroot", "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.1.sdk", "-g", "-O0", "-Icommon", "-Ilib", "-Ilib/tree_sitter/include", "-std=c++2c", "-o", "build/.objs/meta/macosx/arm64/debug/meta/meta.cpp.o", "meta/meta.cpp"],
   "file": "meta/meta.cpp"
-},
-{
-  "directory": "/Users/danluo/experiments/cpp/cassette",
-  "arguments": ["/Users/danluo/compilers/c_cpp/clang/instance01/build/bin/clang", "-c", "-Qunused-arguments", "-target", "arm64-apple-macos15.7", "-isysroot", "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.1.sdk", "-g", "-O0", "-Icommon", "-Isrc", "-std=c++2c", "-Wno-unknown-attributes", "-o", "build/.objs/cassette/macosx/arm64/debug/src/main.cpp.o", "src/main.cpp"],
-  "file": "src/main.cpp"
 }]

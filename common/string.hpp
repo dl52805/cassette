@@ -1,5 +1,6 @@
 #pragma once
 
+#include <ctype.h>
 #include <stdio.h>
 #include <string.h>
 
@@ -33,6 +34,15 @@ struct String8
   {
     if (s_alloc) return (char *) stack;
     else return (char *) buffer;
+  }
+
+  String8(Allocator *allocator)
+  {
+    alloc = allocator;
+    length = 0;
+    s_alloc = true;
+    stack[0] = '\0';
+    this->capacity = default_capacity;
   }
 
   String8() {}
@@ -237,6 +247,29 @@ struct String8
     }
 
     length -= size;
+  }
+
+  bool ends_in(const char *tail)
+  {
+    return ends_in(tail, strlen(tail));
+  }
+
+  bool ends_in(const char *tail, size_t tail_size)
+  {
+    if (tail_size > length) return false;
+    // necessary in case the string is stack allocated
+    char *data_buffer = c_str();
+    char *tail_buffer = (char *) &data_buffer[length - tail_size];
+    return memcmp(tail_buffer, tail, tail_size) == 0;
+  }
+
+  void to_lower()
+  {
+    char *data_buffer = c_str();
+    for (int i = 0; i < length; i++)
+    {
+      data_buffer[i] = tolower(data_buffer[i]);
+    }
   }
 
   void deinit()

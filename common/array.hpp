@@ -26,6 +26,14 @@ struct Array
     data = (T *) alloc->allocate(capacity * sizeof(T)).unwrap();
   }
 
+  Array(Allocator *allocator)
+  {
+    this->alloc = allocator;
+    this->capacity = default_capacity;
+    this->length = 0;
+    data = (T *) alloc->allocate(capacity * sizeof(T)).unwrap();
+  }
+
   Array(T init_vals[], u32 init_len, Allocator *allocator = new Libc_Alloc())
   {
     this->alloc = allocator;
