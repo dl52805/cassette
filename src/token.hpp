@@ -1,5 +1,7 @@
 #pragma once
 
+#include "def.hpp"
+
 #define meta(...)
 #define tag(...)
 
@@ -52,5 +54,17 @@ Token_Type : int
   tag(".else")   else_keyword,
   tag(".return") return_keyword,
   tag(".import") import_keyword
+};
+
+struct Token
+{
+  Token_Type type;
+  u32 position;
+  u32 length;
+  
+  Token(Token_Type type, u32 position, u32 length)
+    : type(type), position(position), length(length) {}
+
+  Token() {}
 };
 

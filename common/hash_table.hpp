@@ -40,12 +40,11 @@ struct Hash_Table
     table = (Entry *) alloc->allocate(capacity * sizeof(Entry)).unwrap();
   }
 
-  Hash_Table(Allocator *allocator = new Libc_Alloc(),
-             u32 capacity = default_capacity)
+  Hash_Table(Allocator *allocator)
   {
     assert(capacity > 0);
     this->alloc = allocator;
-    this->capacity = capacity;
+    this->capacity = default_capacity;
     this->size = 0;
     table = (Entry *) alloc->allocate(capacity * sizeof(Entry)).unwrap();
   }

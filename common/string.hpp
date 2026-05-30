@@ -289,10 +289,18 @@ struct String8_View
   u8 *buffer;
   u32 length;
 
+  String8_View() {}
+
   String8_View(String8 *str)
   {
     buffer = (u8 *) str->c_str();
     length = str->length;
+  }
+
+  String8_View(char *buffer, u32 length)
+  {
+    this->buffer = (u8 *) buffer;
+    this->length = length;
   }
 
   char *c_str()

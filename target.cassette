@@ -1,0 +1,29 @@
+import std.io;
+import std.testing;
+
+five :: 5;
+ten  :: 5;
+
+add :: fn(x: int, y: int) -> int {
+  return x + y;
+}
+
+main :: fn(argc: int, argv: string[]) -> int {
+  println("Hello, world!");
+  result := add(five, ten);
+
+  iprintln("${five} + ${ten} = ${result}");
+
+  5 < 10 > 5;
+
+  if 5 < 10 {
+    return 0;
+  } else {
+    return 1;
+  }
+
+  10 == 10;
+  10 != 9;
+
+  return 0;
+}
