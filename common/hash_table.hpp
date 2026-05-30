@@ -42,7 +42,6 @@ struct Hash_Table
 
   Hash_Table(Allocator *allocator)
   {
-    assert(capacity > 0);
     this->alloc = allocator;
     this->capacity = default_capacity;
     this->size = 0;

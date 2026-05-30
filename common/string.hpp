@@ -291,6 +291,12 @@ struct String8_View
 
   String8_View() {}
 
+  String8_View(String8 str)
+  {
+    buffer = (u8 *) str.c_str();
+    length = str.length;
+  }
+
   String8_View(String8 *str)
   {
     buffer = (u8 *) str->c_str();
