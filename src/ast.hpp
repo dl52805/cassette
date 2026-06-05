@@ -1,6 +1,7 @@
 #pragma once
 
 #include "token.hpp"
+#include "string.hpp"
 #include "array.hpp"
 
 struct Ast_Node {};
@@ -82,8 +83,7 @@ struct Ast_Const_Decl : Ast_Stmt
 
   constexpr static Kind node_kind = Kind::const_decl;
 
-  static Ast_Const_Decl *init_const_decl(Token ident, Ast_Expr *rhs,
-                                         Allocator *allocator)
+  static Ast_Const_Decl *init(Token ident, Ast_Expr *rhs, Allocator *allocator)
   {
     void *ast_obj = allocator->allocate(sizeof(Ast_Const_Decl)).unwrap();
     Ast_Const_Decl *decl = (Ast_Const_Decl *) ast_obj;
@@ -101,8 +101,7 @@ struct Ast_Infer_Decl : Ast_Stmt
 
   constexpr static Kind node_kind = Kind::infer_decl;
 
-  static Ast_Infer_Decl *init_infer_decl(Token ident, Ast_Expr *rhs,
-                                         Allocator *allocator)
+  static Ast_Infer_Decl *init(Token ident, Ast_Expr *rhs, Allocator *allocator)
   {
     void *ast_obj = allocator->allocate(sizeof(Ast_Infer_Decl)).unwrap();
     Ast_Infer_Decl *decl = (Ast_Infer_Decl *) ast_obj;
@@ -119,7 +118,7 @@ struct Ast_Return : Ast_Stmt
 
   constexpr static Kind node_kind = Kind::return_stmt;
 
-  static Ast_Return *init_return(Ast_Expr *rhs, Allocator *allocator)
+  static Ast_Return *init(Ast_Expr *rhs, Allocator *allocator)
   {
     void *ast_obj = allocator->allocate(sizeof(Ast_Return)).unwrap();
     Ast_Return *return_stmt = (Ast_Return *) ast_obj;
@@ -135,7 +134,7 @@ struct Ast_Expr_Stmt : Ast_Stmt
 
   constexpr static Kind node_kind = Kind::expr_stmt;
 
-  static Ast_Expr_Stmt *init_expr_stmt(Ast_Expr *expr, Allocator *allocator)
+  static Ast_Expr_Stmt *init(Ast_Expr *expr, Allocator *allocator)
   {
     void *ast_obj = allocator->allocate(sizeof(Ast_Expr_Stmt)).unwrap();
     Ast_Expr_Stmt *expr_stmt = (Ast_Expr_Stmt *) ast_obj;
@@ -151,8 +150,7 @@ struct Ast_Block_Stmt : Ast_Stmt
 
   constexpr static Kind node_kind = Kind::block_stmt;
 
-  static Ast_Block_Stmt *init_block_stmt(Array<Ast_Stmt *> stmts,
-                                         Allocator *allocator)
+  static Ast_Block_Stmt *init(Array<Ast_Stmt *> stmts, Allocator *allocator)
   {
     void *ast_obj = allocator->allocate(sizeof(Ast_Block_Stmt)).unwrap();
     Ast_Block_Stmt *block_stmt = (Ast_Block_Stmt *) ast_obj;
@@ -170,10 +168,8 @@ struct Ast_If_Stmt : Ast_Stmt
 
   constexpr static Kind node_kind = Kind::if_stmt;
 
-  static Ast_If_Stmt *init_if_stmt(Ast_Expr *condition,
-                                   Ast_Block_Stmt *consequence,
-                                   Ast_Block_Stmt *alternative,
-                                   Allocator *allocator)
+  static Ast_If_Stmt *init(Ast_Expr *condition, Ast_Block_Stmt *consequence,
+                           Ast_Block_Stmt *alternative, Allocator *allocator)
   {
     void *ast_obj = allocator->allocate(sizeof(Ast_If_Stmt)).unwrap();
     Ast_If_Stmt *if_stmt = (Ast_If_Stmt *) ast_obj;
@@ -192,11 +188,17 @@ struct Ast_Int_Literal : Ast_Expr
 
   constexpr static Kind node_kind = Kind::int_literal;
 
-  static Ast_Int_Literal *init_int_literal(Token token, int value,
-                                           Allocator *allocator)
+  static Ast_Int_Literal *init(Token token, String8_View source,
+                               Allocator *allocator)
   {
     void *ast_obj = allocator->allocate(sizeof(Ast_Int_Literal)).unwrap();
     Ast_Int_Literal *int_literal = (Ast_Int_Literal *) ast_obj;
+
+    // any 64-bit number can have at most 20 digits in decimal
+    char num[21] = {0};
+    strncpy(num, (char *) &source.buffer[token.position], token.length);
+    int value = atoi(num);
+
     int_literal->token = token;
     int_literal->value = value;
     int_literal->kind = node_kind;
@@ -210,7 +212,7 @@ struct Ast_Ident_Expr : Ast_Expr
 
   constexpr static Kind node_kind = Kind::ident_expr;
 
-  static Ast_Ident_Expr *init_ident_expr(Token ident, Allocator *allocator)
+  static Ast_Ident_Expr *init(Token ident, Allocator *allocator)
   {
     void *ast_obj = allocator->allocate(sizeof(Ast_Ident_Expr)).unwrap();
     Ast_Ident_Expr *ident_epxr = (Ast_Ident_Expr *) ast_obj;
@@ -227,8 +229,7 @@ struct Ast_Type_Decl : Ast_Expr
 
   constexpr static Kind node_kind = Kind::type_decl;
 
-  static Ast_Type_Decl *init_type_decl(Token ident, Ast_Expr *type,
-                                       Allocator *allocator)
+  static Ast_Type_Decl *init(Token ident, Ast_Expr *type, Allocator *allocator)
   {
     void *ast_obj = allocator->allocate(sizeof(Ast_Type_Decl)).unwrap();
     Ast_Type_Decl *type_decl = (Ast_Type_Decl *) ast_obj;
@@ -247,10 +248,8 @@ struct Ast_Fn_Decl : Ast_Expr
 
   constexpr static Kind node_kind = Kind::fn_decl;
 
-  static Ast_Fn_Decl *init_fn_decl(Array<Ast_Expr *> params,
-                                   Ast_Expr *return_type,
-                                   Ast_Block_Stmt *body,
-                                   Allocator *allocator)
+  static Ast_Fn_Decl *init(Array<Ast_Expr *> params, Ast_Expr *return_type,
+                           Ast_Block_Stmt *body, Allocator *allocator)
   {
     void *ast_obj = allocator->allocate(sizeof(Ast_Fn_Decl)).unwrap();
     Ast_Fn_Decl *fn_decl = (Ast_Fn_Decl *) ast_obj;
@@ -270,9 +269,9 @@ struct Ast_Binary_Expr : Ast_Expr
 
   constexpr static Kind node_kind = Kind::binary_expr;
 
-  static Ast_Binary_Expr *init_binary_expr(Token expr_operator,
-                                           Ast_Expr *lhs, Ast_Expr *rhs,
-                                           Allocator *allocator)
+  static Ast_Binary_Expr *init(Token expr_operator,
+                               Ast_Expr *lhs, Ast_Expr *rhs,
+                               Allocator *allocator)
   {
     void *ast_obj = allocator->allocate(sizeof(Ast_Binary_Expr)).unwrap();
     Ast_Binary_Expr *binary_expr = (Ast_Binary_Expr *) ast_obj;
@@ -291,8 +290,8 @@ struct Ast_Unary_Expr : Ast_Expr
 
   constexpr static Kind node_kind = Kind::unary_expr;
 
-  static Ast_Unary_Expr *init_unary_expr(Token expr_operator, Ast_Expr *rhs,
-                                         Allocator *allocator)
+  static Ast_Unary_Expr *init(Token expr_operator, Ast_Expr *rhs,
+                              Allocator *allocator)
   {
     void *ast_obj = allocator->allocate(sizeof(Ast_Unary_Expr)).unwrap();
     Ast_Unary_Expr *unary_expr = (Ast_Unary_Expr *) ast_obj;

@@ -99,14 +99,16 @@ struct Lexer
 
   Token scan_token()
   {
-    Token_Type type = Token_Type::illegal;
+    using enum Token_Type;
+
+    Token_Type type = illegal;
 
     skip_whitespace();
     start = current;
 
     if (is_at_end())
     {
-      return Token(Token_Type::end_of_file, start, current - start);
+      return Token(end_of_file, start, current - start);
     }
 
     char c = advance();
@@ -118,33 +120,33 @@ struct Lexer
           if (peek() == '=')
           {
             advance();
-            type = Token_Type::eq;
-          } else type = Token_Type::assign;
+            type = eq;
+          } else type = assign;
           break;
         }
       case ';':
         {
-          type = Token_Type::semicolon;
+          type = semicolon;
           break;
         }
       case '(':
         {
-          type = Token_Type::lparen;
+          type = lparen;
           break;
         }
       case ')':
         {
-          type = Token_Type::rparen;
+          type = rparen;
           break;
         }
       case '{':
         {
-          type = Token_Type::lbrace;
+          type = lbrace;
           break;
         }
       case '}':
         {
-          type = Token_Type::rbrace;
+          type = rbrace;
           break;
         }
       case '[':
@@ -152,18 +154,18 @@ struct Lexer
           if (peek() == ']')
           {
             advance();
-            type = Token_Type::arr_brackets;
-          } else type = Token_Type::lbracket;
+            type = arr_brackets;
+          } else type = lbracket;
           break;
         }
       case ']':
         {
-          type = Token_Type::rbracket;
+          type = rbracket;
           break;
         }
       case ',':
         {
-          type = Token_Type::comma;
+          type = comma;
           break;
         }
       case '!':
@@ -171,13 +173,13 @@ struct Lexer
           if (peek() == '=')
           {
             advance();
-            type = Token_Type::neq;
-          } else type = Token_Type::bang;
+            type = neq;
+          } else type = bang;
           break;
         }
       case '+':
         {
-          type = Token_Type::plus;
+          type = plus;
           break;
         }
       case '-':
@@ -185,33 +187,33 @@ struct Lexer
           if (peek() == '>')
           {
             advance();
-            type = Token_Type::arrow;
-          } else type = Token_Type::minus;
+            type = arrow;
+          } else type = minus;
           break;
         }
       case '/':
         {
-          type = Token_Type::slash;
+          type = slash;
           break;
         }
       case '*':
         {
-          type = Token_Type::asterisk;
+          type = asterisk;
           break;
         }
       case '<':
         {
-          type = Token_Type::lt;
+          type = lt;
           break;
         }
       case '>':
         {
-          type = Token_Type::gt;
+          type = gt;
           break;
         }
       case '.':
         {
-          type = Token_Type::dot;
+          type = dot;
           break;
         }
       case ':':
@@ -220,13 +222,13 @@ struct Lexer
           if (next == '>')
           {
             advance();
-            type = Token_Type::arrow;
+            type = arrow;
           }
           else if (next == ':')
           {
             advance();
-            type = Token_Type::const_assign;
-          } else type = Token_Type::colon;
+            type = const_assign;
+          } else type = colon;
           break;
         }
       case '"':
